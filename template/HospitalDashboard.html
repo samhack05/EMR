@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>EMR | Hospital Dashboard</title>
+{% load static %}
+<!---->
+  <!-- Bootstrap core CSS -->
+  <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <!-- Custom styles for this template -->
+  <link href="{% static 'css/simple-sidebar.css' %}" rel="stylesheet">
+    <script>
+                        function yesnoCheck() {
+                            if (document.getElementById('yesCheck').checked) {
+                                document.getElementById('ifYes').style.visibility = 'visible';
+                            }
+                            else document.getElementById('ifYes').style.visibility = 'hidden';
+                            if (document.getElementById('yesCheck1').checked) {
+                                document.getElementById('ifYes1').style.visibility = 'visible';
+                            }
+                            else document.getElementById('ifYes1').style.visibility = 'hidden';
+                            if (document.getElementById('yesCheck2').checked) {
+                                document.getElementById('ifYes2').style.visibility = 'visible';
+                            }
+                            else document.getElementById('ifYes2').style.visibility = 'hidden';
+                            if (document.getElementById('yesCheck3').checked) {
+                                document.getElementById('ifYes3').style.visibility = 'visible';
+                            }
+                            else document.getElementById('ifYes3').style.visibility = 'hidden';
+
+                        }
+                        </script>
+<script>
+function SearchPatient() {
+  id = document.getElementById("yes").value;
+  pid = document.getElementById("yes1").value;
+  username = document.getElementById("yes2").value;
+  pno = document.getElementById("yes3").value;
+  if(id.length > 0 ){
+     location.replace("/management/HospitalDashboard/1/1"+id)
+  }
+  if(pid.length > 0 ){
+     location.replace("/management/HospitalDashboard/1/2"+pid)
+  }
+  if(username.length > 0 ){
+     location.replace("/management/HospitalDashboard/1/3"+username)
+  }
+  if(pno.length > 0 ){
+     location.replace("/management/HospitalDashboard/1/4"+pno)
+  }
+}
+function EmergencySearch() {
+  id = document.getElementById("yes").value;
+  pid = document.getElementById("yes1").value;
+  username = document.getElementById("yes2").value;
+  pno = document.getElementById("yes3").value;
+  if(id.length > 0 ){
+     location.replace("/management/HospitalDashboard/2/1"+id)
+  }
+  if(pid.length > 0 ){
+     location.replace("/management/HospitalDashboard/2/2"+pid)
+  }
+  if(username.length > 0 ){
+     location.replace("/management/HospitalDashboard/2/3"+username)
+  }
+  if(pno.length > 0 ){
+     location.replace("/management/HospitalDashboard/2/4"+pno)
+  }
+}
+
+</script>
+</head>
+<body>
+
+  <div class="d-flex" id="wrapper">
+    <!-- Sidebar -->
+    <div class="border-right" id="sidebar-wrapper">
+      <div class="sidebar-heading">Hospital Dashboard</div>
+      <div class="list-group list-group-flush">
+        <a href="/management/HospitalDashboard/" class="list-group-item list-group-item-action bg-light">Dashboard<span class="sr-only">(current)</span></a>
+        <a href="/management/createPatient/" class="list-group-item list-group-item-action bg-light">Create Patient Account</a>
+        <a href="#" class="list-group-item list-group-item-action bg-light">Overview</a>
+        <a href="#" class="list-group-item list-group-item-action bg-light">Events</a>
+        <a href="#" class="list-group-item list-group-item-action bg-light">{{request.user}}</a>
+        <a href="#" class="list-group-item list-group-item-action bg-light">Status</a>
+      </div>
+    </div>
+    <!-- /#sidebar-wrapper -->
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+
+      <nav class="navbar navbar-expand-lg  border-bottom navbar-dark bg-primary sticky-top">
+        <button class="btn btn-primary" id="menu-toggle">Menu</button>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li><!--
+            <li class="nav-item">
+              <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Dropdown
+              </a>
+              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Something else here</a>
+              </div>
+            </li> -->
+            <li class="nav-item">
+        <a class="nav-link" href="/logout/">Logout</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <div class="container-fluid">
+         <div class="row">
+             <div class="col-sm-6">
+ <div class="card" style=" height: 18rem;">
+  <div class="card-header">
+ Search By:</div>
+ <div class="card-body">
+ <input type="radio" onclick="javascript:yesnoCheck();" name="yesno" id="yesCheck">UID
+<input type="radio" onclick="javascript:yesnoCheck();" name="yesno" id="yesCheck1">Parent ID
+<input type="radio" onclick="javascript:yesnoCheck();" name="yesno" id="yesCheck2">Username
+<input type="radio" onclick="javascript:yesnoCheck();" name="yesno" id="yesCheck3">Phone Number
+    <div id="ifYes" style="visibility:hidden">
+        Enter UID: <input type='text' id='yes' name='yes'></div>
+		<div id="ifYes1" style="visibility:hidden">
+        Enter Parent Id: <input type='text' id='yes1' name='yes1'></div>
+		<div id="ifYes2" style="visibility:hidden">
+        Enter Username: <input type='text' id='yes2' name='yes2'></div>
+		<div id="ifYes3" style="visibility:hidden">
+        Enter Phone Number: <input type='text' id='yes3' name='yes3'></div>
+    <button onclick="SearchPatient()">ADD</button>&nbsp;&nbsp;&nbsp;&nbsp;<button onclick="EmergencySearch()">Emergency</button>
+  </div>
+</div>
+ </div>
+             <div class="col-sm-6">
+    <div class="card" style=" height: 18rem;">
+	 <div class="card-header">Patient Details</div>
+      <div class="card-body">
+          <table class="table table-sm">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">Id</th>
+              <th scope="col">First</th>
+              <th scope="col">Last</th>
+              <th scope="col">Email</th>
+              <th scope="col">Mobile No.</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for record in page_obj %}
+
+            <tr>
+              <th scope="row"><a href="/management/PatientInfo/{{record.Patient.pk}}">{{ record.Patient.pk}}</a></th>
+              <td><a href="/management/PatientInfo/{{record.Patient.pk}}">{{ record.Patient.firstname|upper }}</a></td>
+              <td><a href="/management/PatientInfo/{{record.Patient.pk}}">{{ record.Patient.lastname|upper }}</a></td>
+              <td><a href="/management/PatientInfo/{{record.Patient.pk}}">{{ record.Patient.Email}}</a></td>
+              <td><a href="/management/PatientInfo/{{record.Patient.pk}}">{{ record.Patient.ContactNo}}</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        </table>
+          <div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?HospitalCircle_list_page=1">&laquo; first</a>
+            <a href="?HospitalCircle_list_page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+        {% if page_obj.has_next %}
+            <a href="?HospitalCircle_list_page={{ page_obj.next_page_number }}">next</a>
+            <a href="?HospitalCircle_list_page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+      </div>
+    </div>
+  </div>
+</div>
+ <div class="card">
+  <div class="card-body">
+         <div class="row">
+  <div class="col-sm-4">
+  <div class="card" style="width: 18rem; height: 20rem;">
+  <div class="card-header" style="width: 18rem;">
+  Doctors ({{doccount}})
+  </div>
+  <div class="card-body">
+      <p class="card-text"><ol>
+        {% for rd in Doctors_records %}
+              <li>Dr. {{rd.doctor.first_name|upper}}&nbsp;{{rd.doctor.last_name|upper}}</li>
+          {% endfor %}</ol>
+      </p>
+     <!-- <div class="pagination">
+                <span class="step-links">
+                    {% if page_obj2.has_previous %}
+                        <a href="?Doctors_records_list_page=1">&laquo; first</a>
+                        <a href="?Doctors_records_list_page={{ page_obj2.previous_page_number }}">previous</a>
+                    {% endif %}
+                    <span class="current">
+                        Page {{ page_obj2.number }} of {{ page_obj2.paginator.num_pages }}.
+                    </span>
+                    {% if page_obj2.has_next %}
+                        <a href="?Doctors_records_list_page={{ page_obj2.next_page_number }}">next</a>
+                        <a href="?Doctors_records_list_page={{ page_obj2.paginator.num_pages }}">last &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>-->
+  </div>
+</div>
+</div>
+<div class="col-sm-4">
+    <div class="card" style="width: 18rem; height: 20rem;">
+  <div class="card-header" style="width: 18rem;">
+  Staff ({{staffcount}})
+  </div>
+  <div class="card-body">
+      <p class="card-text"><ol>
+        {% for rds in staff_records %}
+              <li>{{rds.staff.firstname|upper}}&nbsp;{{rds.staff.lastname|upper}})</li>
+        {% endfor %}</ol>
+      </p>
+      <!--<div class="pagination">
+                <span class="step-links">
+                    {% if page_obj3.has_previous %}
+                        <a href="?staff_records_list_page=1">&laquo; first</a>
+                        <a href="?staff_records_list_page={{ page_obj3.previous_page_number }}">previous</a>
+                    {% endif %}
+                    <span class="current">
+                        Page {{ page_obj3.number }} of {{ page_obj3.paginator.num_pages }}.
+                    </span>
+                    {% if page_obj3.has_next %}
+                        <a href="?staff_records_list_page={{ page_obj3.next_page_number }}">next</a>
+                        <a href="?staff_records_list_page={{ page_obj3.paginator.num_pages }}">last &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>-->
+  </div>
+</div>
+</div>
+<div class="col-sm-4">
+    <div class="card" style="width: 18rem; height: 20rem;">
+  <div class="card-header" style="width: 18rem;">
+  Labs ({{Labcounts}})
+  </div>
+  <div class="card-body">
+      <p class="card-text"><ol>
+        {% for rdse in lab_records %}
+              <li>{{rdse.lab.PathologyName}}
+              ({{rdse.lab.Address}}&nbsp;{{rdse.lab.City|upper}})</li>
+        {% endfor %}</ol>
+      </p>
+      <!--<div class="pagination">
+                <span class="step-links">
+                    {% if page_obj4.has_previous %}
+                        <a href="?lab_records_list_page=1">&laquo; first</a>
+                        <a href="?lab_records_list_page={{ page_obj4.previous_page_number }}">previous</a>
+                    {% endif %}
+                    <span class="current">
+                        Page {{ page_obj4.number }} of {{ page_obj4.paginator.num_pages }}.
+                    </span>
+                    {% if page_obj4.has_next %}
+                        <a href="?lab_records_list_page={{ page_obj4.next_page_number }}">next</a>
+                        <a href="?lab_records_list_page={{ page_obj4.paginator.num_pages }}">last &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>-->
+  </div>
+</div>
+</div>
+  </div>
+      <br>
+         <div class="row">
+  <div class="col-sm-4">
+  <div class="card" style="width: 18rem; height: 20rem;">
+  <div class="card-header" style="width: 18rem;">
+  Accept Doctor
+  </div>
+  <div class="card-body">
+      <p class="card-text">
+        {% for rd in page_obj2 %}
+              {{rd.doctor.email}}<br>
+              (Dr. {{rd.doctor.first_name|upper}}&nbsp;{{rd.doctor.last_name|upper}})</br>
+               <a href="/management/HospitalDashboard/3/{{rd.pk}}" class="btn btn-primary">Accept</a> <a href="/management/HospitalDashboard/4/{{rd.pk}}" class="btn btn-primary">Reject</a>
+        {% endfor %}
+      </p>
+      <div class="pagination">
+                <span class="step-links">
+                    {% if page_obj2.has_previous %}
+                        <a href="?Doctors_records_list_page=1">&laquo; first</a>
+                        <a href="?Doctors_records_list_page={{ page_obj2.previous_page_number }}">previous</a>
+                    {% endif %}
+                    <span class="current">
+                        Page {{ page_obj2.number }} of {{ page_obj2.paginator.num_pages }}.
+                    </span>
+                    {% if page_obj2.has_next %}
+                        <a href="?Doctors_records_list_page={{ page_obj2.next_page_number }}">next</a>
+                        <a href="?Doctors_records_list_page={{ page_obj2.paginator.num_pages }}">last &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
+  </div>
+</div>
+</div>
+<div class="col-sm-4">
+    <div class="card" style="width: 18rem; height: 20rem;">
+  <div class="card-header" style="width: 18rem;">
+  Accept Staff
+  </div>
+  <div class="card-body">
+      <p class="card-text">
+        {% for rds in page_obj3 %}
+              {{rds.staff.ContactNo}}<br>
+              ({{rds.staff.firstname|upper}}&nbsp;{{rds.staff.lastname|upper}})</br>
+               <a href="/management/HospitalDashboard/5/{{rds.pk}}" class="btn btn-primary">Accept</a> <a href="/management/HospitalDashboard/6/{{rds.pk}}" class="btn btn-primary">Reject</a>
+        {% endfor %}
+      </p>
+      <div class="pagination">
+                <span class="step-links">
+                    {% if page_obj3.has_previous %}
+                        <a href="?staff_records_list_page=1">&laquo; first</a>
+                        <a href="?staff_records_list_page={{ page_obj3.previous_page_number }}">previous</a>
+                    {% endif %}
+                    <span class="current">
+                        Page {{ page_obj3.number }} of {{ page_obj3.paginator.num_pages }}.
+                    </span>
+                    {% if page_obj3.has_next %}
+                        <a href="?staff_records_list_page={{ page_obj3.next_page_number }}">next</a>
+                        <a href="?staff_records_list_page={{ page_obj3.paginator.num_pages }}">last &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
+  </div>
+</div>
+</div>
+<div class="col-sm-4">
+    <div class="card" style="width: 18rem; height: 20rem;">
+  <div class="card-header" style="width: 18rem;">
+  Accept Lab
+  </div>
+  <div class="card-body">
+      <p class="card-text">
+        {% for rdse in page_obj4 %}
+              {{rdse.lab.PathologyName}}<br>
+              ({{rdse.lab.Address}}&nbsp;{{rdse.lab.City|upper}})</br>
+               <a href="/management/HospitalDashboard/7/{{rdse.pk}}" class="btn btn-primary">Accept</a> <a href="/management/HospitalDashboard/8/{{rdse.pk}}" class="btn btn-primary">Reject</a>
+        {% endfor %}
+      </p>
+      <div class="pagination">
+                <span class="step-links">
+                    {% if page_obj4.has_previous %}
+                        <a href="?lab_records_list_page=1">&laquo; first</a>
+                        <a href="?lab_records_list_page={{ page_obj4.previous_page_number }}">previous</a>
+                    {% endif %}
+                    <span class="current">
+                        Page {{ page_obj4.number }} of {{ page_obj4.paginator.num_pages }}.
+                    </span>
+                    {% if page_obj4.has_next %}
+                        <a href="?lab_records_list_page={{ page_obj4.next_page_number }}">next</a>
+                        <a href="?lab_records_list_page={{ page_obj4.paginator.num_pages }}">last &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
+  </div>
+</div>
+</div>
+  </div>
+  </div>
+</div>
+      </div>
+
+
+
+      </div>
+    </div>
+    <!-- /#page-content-wrapper -->
+
+  </div>
+  <!-- /#wrapper -->
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+  <!-- Menu Toggle Script -->
+  <script>
+    $("#menu-toggle").click(function(e) {
+      e.preventDefault();
+      $("#wrapper").toggleClass("toggled");
+    });
+  </script>
+
+</body>
+
+</html>

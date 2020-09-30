@@ -1,0 +1,21 @@
+sir, what i feel that we dont only need to interview doctors,nurses
+we also have to contact some nearby medical store 
+suppose sir if Customers comes with e-prescription can you deal with them ?
+they have computers in your store?
+have trained computer staff?
+diliver meidice at Customer's door step?
+bill computerised ?
+
+
+Lakhimpur Kheri	Dr.  Satish		9415913212
+Lakhimpur Kheri	Dr.  Harsh Bharti	9415073607
+Lakhimpur Kheri	Dr.  Akhilesh Verma	9839980812
+Lakhimpur Kheri	Dr.  Meera verma	9415188725
+Lakhimpur Kheri	Dr.  Shusma		9450335065
+Lakhimpur Kheri	Dr.  Amrita Singh	9455759899
+
+EHR(Petient_Portal + Doctors_Portal + Madical_Store_Portal + Madical_Company_Portal + Lab Portal + Hospital portal) 
+
+healtpricks- 
+
+7619531461

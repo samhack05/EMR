@@ -1,0 +1,622 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/docs/4.1/assets/img/favicons/favicon.ico">
+
+    <title>Hospital Registration</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.1/examples/checkout/">
+
+    <!-- Bootstrap core CSS -->
+    <link href="../../dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="form-validation.css" rel="stylesheet">
+  </head>
+
+  <body class="bg-light">
+
+    <div class="container">
+      <div class="py-5 text-center">
+        <img class="d-block mx-auto mb-4" src="../../assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+        <h2>Hospital Registration form</h2>
+        <p class="lead">Each required form group has a validation state that can be triggered by attempting to submit the form without completing it.</p>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4 order-md-2 mb-4"><!-- used afterwards -->
+        </div>
+        <div class="col-md-8 order-md-1">
+          <h4 class="mb-3">Account Details</h4>
+          <form class="needs-validation" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="firstName">First name</label>
+                <input type="text" class="form-control" id="firstname" name="firstname" placeholder="" value="" required>
+                <div class="invalid-feedback">
+                  Valid first name is required.
+                </div>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="lastName">Last name</label>
+                <input type="text" class="form-control" id="lastname" name="lastname" placeholder="" value="" required>
+                <div class="invalid-feedback">
+                  Valid last name is required.
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="username">Hospital Email</label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">@</span>
+                </div>
+                <input type="email" class="form-control" id="username" name="username" placeholder="Username for login" required>
+                <div class="invalid-feedback" style="width: 100%;">
+                  Your username is required.
+                </div>
+              </div>
+            </div>
+
+			<div class="mb-3">
+              <label for="license">License Number</label>
+              <input type="number" class="form-control" id="license" name="license" placeholder="License Number">
+            </div>
+			<div class="mb-3">
+              <label for="password">Password</label>
+              <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+              <div class="invalid-feedback">
+                Please enter a strong password.
+              </div>
+            </div>
+
+			<div class="mb-3">
+              <label for="cpassword">Confirm Password</label>
+              <input type="password" class="form-control" id="cpassword" name="cpassword" placeholder="Password">
+              <div class="invalid-feedback">
+                Please confirm your password.
+              </div>
+            </div>
+
+			<div class="mb-3">
+              <label for="mobile">Mobile Number</label>
+              <input type="number" class="form-control" id="mobile" name="mobile">
+            </div>
+
+			<div class="mb-3">
+              <label for="Emergency">Emergency Number</label>
+              <input type="number" class="form-control" id="emergency" name="emergency">
+            </div>
+
+			<div class="mb-3">
+              <label for="nodald">Nodal Person Designation</label>
+              <input type="text" class="form-control" id="nodaldesignation" name="nodaldesignation" placeholder="Designation">
+            </div>
+
+            <div class="mb-3">
+              <label for="email">Nodal Person Email</label>
+              <input type="email" class="form-control" id="email" name="email" placeholder="you@example.com">
+            </div>
+
+			<div class="mb-3">
+              <label for="hospital">Hospital Name</label>
+              <input type="text" class="form-control" id="hospitalname" name="hospitalname" placeholder="Name of the hospital">
+            </div>
+
+			<div class="mb-3">
+              <label for="accreditation">Accreditation</label>
+              <input type="text" class="form-control" id="accreditation" name="accreditation" placeholder="Accreditation">
+            </div>
+
+			<div class="mb-3">
+              <label for="type">Healthcare Provider Type</label>
+              <input type="text" class="form-control" id="type" name="type" placeholder="Healthcare Provider Type">
+            </div>
+
+            <div class="mb-3">
+              <label for="registrationno">Registration Certificate Number</label>
+              <input type="file" class="form-control" id="registrationno" name="registrationno" placeholder="Registration Number">
+            </div>
+
+            <div class="mb-3">
+              <label for="address">Address</label>
+              <input type="text" class="form-control" id="address" name="address">
+              <div class="invalid-feedback">
+                Please enter your shipping address.
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="city">City</label>
+              <input type="text" class="form-control" id="city" name="city" placeholder="Enter your city name">
+            </div>
+
+			<div class="mb-3">
+              <label for="pincode">Pincode</label>
+              <input type="number" class="form-control" id="pincode" name="pincode" placeholder="Enter your area's pincode">
+            </div>
+
+			<div class="mb-3">
+              <label for="state">State</label>
+              <input type="text" class="form-control" id="state" name="state" placeholder="Enter your state">
+            </div>
+
+			<div class="md-3">
+			    <label for="Speciality">Speciality</label>
+			</div>
+			<div class="mb-3">
+		    	<input type="checkbox" name="1optradio" value="Anaesthesiology">Anaesthesiology
+		  	</div>
+
+			<div class="md-3">
+		    			<input type="checkbox" name="2optradio" value="Anatomy">Anatomy
+
+				</div>
+				<div class="md-3">
+
+		    			<input type="checkbox" name="3optradio" value="Bariatic Surgery">Bariatic Surgery
+
+				</div>
+				<div class="md-3">
+
+		    			<input type="checkbox" name="4optradio" value="Biochemistry">Biochemistry
+
+				</div>
+			<div class="md-3">
+
+		    			<input type="checkbox" name="5optradio" value="Biomedical Engineering">Biomedical Engineering
+
+				</div>
+				<div class="md-3">
+
+		    			<input type="checkbox" name="6optradio" value="Biophysics">Biophysics
+
+				</div>
+				<div class="md-3">
+
+		    			<input type="checkbox" name="7optradio" value="Biostatistics">Biostatistics
+
+				</div>
+				<div class="md-3">
+
+		    			<input type="checkbox" name="8optradio" value="Biotechnology">Biotechnology
+
+			</div>
+			<div class="md-3">
+
+		    			<input type="checkbox" name="9optradio" value="Burn Department">Burn Department
+
+				</div>
+				<div class="md-3">
+
+		    			<input type="checkbox" name="10optradio" value="Cardiology">Cardiology
+
+				</div>
+				<div class="md-3">
+		    			<input type="checkbox" name="11optradio" value="Cardio Thoracic Vascular Surgery">Cardio Thoracic Vascular Surgery
+				</div>
+				<div class="md-3">
+
+		    			<input type="checkbox" name="12optradio" value="Center for community Medicine">Center for community Medicine
+
+			</div>
+			<div class="md-3">
+
+		    			<input type="checkbox" name="13optradio" value="Cosmetic Surgery">Cosmetic Surgery
+
+				</div>
+				<div class="md-3">
+
+		    			<input type="checkbox" name="14optradio" value="Dermatology and Venereology">Dermatology and Venereology
+
+				</div>
+				<div class="md-3">
+
+		    			<input type="checkbox"  name="15optradio" value="Dietetics">Dietetics
+
+				</div>
+				<div class="md-3">
+
+		    			<input type="checkbox" name="16optradio" value="Dental">Dental
+
+			</div>
+			<div class="md-3">
+
+		    			<input type="checkbox" name="17optradio" value="Endocrinology, Metabolism and Diabetes">Endocrinology, Metabolism and Diabetes
+
+				</div>
+				<div class="md-3">
+
+		    			<input type="checkbox" name="18optradio" value="Forensic Medicine and Toxicology">Forensic Medicine and Toxicology
+
+				</div>
+				<div class="md-3">
+
+		    			<input type="checkbox" name="19optradio" value="Gastroenterology and Human Nutrition">Gastroenterology and Human Nutrition
+
+				</div>
+				<div class="md-3">
+
+		    			<input type="checkbox" name="20optradio" value="Gastrointestinal Surgery">Gastrointestinal Surgery
+
+			</div>
+
+			<div class="md-3">
+
+		    			<input type="checkbox" name="21optradio" value="General Surgery">General Surgery
+
+				</div>
+				<div class="md-3">
+
+		    			<input type="checkbox" name="22optradio" value="Hematology">Hematology
+
+				</div>
+				<div class="md-3">
+
+		    			<input type="checkbox" name="23optradio" value="Internal Medicine">Internal Medicine
+
+				</div>
+				<div class="md-3">
+
+		    			<input type="checkbox" name="24optradio" value="Kidney transplant">Kidney transplant
+
+			</div>
+
+			<div class="md-3">
+
+		    			<input type="checkbox" name="25optradio" value="Laboratary Medicine">Laboratary Medicine
+
+				</div>
+			<div class="md-3">
+
+		    			<input type="checkbox" name="26optradio" value="Liver Transplant">Liver Transplant
+
+				</div>
+				<div class="md-3">
+
+		    			<input type="checkbox" name="27optradio" value="Laparoscopic Surgery">Laparoscopic Surgery
+
+				</div>
+				<div class="md-3">
+
+		    			<input type="checkbox" name="28optradio" value="Medicine">Medicine
+
+			</div>
+
+			<div class="md-3">
+
+		    			<input type="checkbox" name="29optradio" value="Microbiology">Microbiology
+
+				</div>
+				<div class="md-3">
+
+		    			<input type="checkbox" name="30optradio" value="Nephrology">Nephrology
+
+				</div>
+				<div class="md-3">
+
+		    			<input type="checkbox" name="31optradio" value="Nuclear Medicine">Nuclear Medicine
+
+				</div>
+				<div class="md-3">
+
+		    			<input type="checkbox" name="32optradio" value="Neurology">Neurology
+
+			</div>
+
+			<div class="md-3">
+
+		    			<input type="checkbox" name="33optradio" value="Neuron Surger">Neuron Surger
+
+				</div>
+				<div class="md-3">
+
+		    			<input type="checkbox" name="34optradio" value="Nuclear Magnetic Resonance Imaging">Nuclear Magnetic Resonance Imaging
+
+				</div>
+				<div class="md-3">
+
+		    			<input type="checkbox" name="35optradio" value="Obstetrics and Gyanecology">Obstetrics and Gyanecology
+
+				</div>
+				<div class="md-3">
+
+		    			<input type="checkbox" name="36optradio" value="In Vetro Fertilization">In Vetro Fertilization
+
+			</div>
+
+			<div class="md-3">
+
+		    			<input type="checkbox" name="37optradio" value="Cancer Care">Cancer Care
+
+				</div>
+				<div class="md-3">
+
+		    			<input type="checkbox" name="38optradio" value="Orthopedics">Orthopedics
+
+				</div>
+				<div class="md-3">
+
+		    			<input type="checkbox" name="39optradio" value="Eye Care">Eye Care
+
+				</div>
+				<div class="md-3">
+
+		    			<input type="checkbox" name="40optradio" value="Otorhinolaryngology">Otorhinolaryngology
+
+			</div>
+
+
+
+			<div class="md-3">
+
+		    			<input type="checkbox" name="41optradio" value="Pediatrics">Pediatrics
+
+				</div>
+				<div class="md-3">
+
+		    			<input type="checkbox" name="42optradio" value="Pedoactric Surgery">Pedoactric Surgery
+
+				</div>
+				<div class="md-3">
+
+		    			<input type="checkbox" name="43optradio" value="Pulmonology/ Respiratory Medicine">Pulmonology/ Respiratory Medicine
+
+				</div>
+				<div class="md-3">
+
+		    			<input type="checkbox" name="44optradio" value="Trauma and Emergency Medicine">Trauma and Emergency Medicine
+
+			</div>
+
+
+			<div class="md-3">
+
+		    			<input type="checkbox" name="45optradio" value="Plastic Surgery">Plastic Surgery
+
+				</div>
+				<div class="md-3">
+
+		    			<input type="checkbox" name="46optradio" value="Pharmacology">Pharmacology
+
+				</div>
+				<div class="md-3">
+
+		    			<input type="checkbox" name="47optradio" value="Physiology">Physiology
+
+				</div>
+				<div class="md-3">
+
+		    			<input type="checkbox" name="48optradio" value="Physical Medicine and Rehabilitation">Physical Medicine and Rehabilitation
+
+			</div>
+
+			<div class="md-3">
+
+		    			<input type="checkbox" name="49optradio" value="Psychiatry">Psychiatry
+
+				</div>
+				<div class="md-3">
+
+		    			<input type="checkbox" name="50optradio" value="Reproductive Biology">Reproductive Biology
+
+				</div>
+				<div class="md-3">
+
+		    			<input type="checkbox" name="51optradio" value="Surgical Disciplines">Surgical Disciplines
+
+				</div>
+				<div class="md-3">
+
+		    			<input type="checkbox" name="52optradio" value="Transplant Surgery">Transplant Surgery
+
+			</div>
+
+			<div class="md-3">
+
+		    			<input type="checkbox" name="53optradio" value="Blood Bank">Blood Bank
+
+				</div>
+				<div class="md-3">
+
+		    			<input type="checkbox" name="54optradio" value="Urology">Urology
+
+				</div>
+				<div class="md-3">
+
+		    			<input type="checkbox" name="55optradio" value="Vascular Surgery">Vascular Surgery
+
+				</div>
+				<div class="md-3">
+
+		    			<input type="checkbox" name="56optradio" value="Other">Any Other +
+
+			</div>
+
+			<div class="md-3">
+
+			    	<label for="AYUSH">AYUSH</label>
+			</div>
+			<div class="md-3">
+
+		    			<input type="checkbox" name="optradio1" value="AYURVEDA">AYURVEDA
+
+				</div>
+				<div class="md-3">
+
+		    			<input type="checkbox" name="optradio1" value="YOGA">YOGA
+
+				</div>
+				<div class="md-3">
+
+		    			<input type="checkbox" name="optradio1" value="UNANI">UNANI
+
+				</div>
+				<div class="md-3">
+
+		    			<input type="checkbox"  name="optradio1" value="SIDDHA">SIDDHA
+
+			</div>
+			<div class="md-3">
+
+		    			<input type="checkbox" name="optradio1" value="HOMEOPATHY">HOMEOPATHY
+
+				</div>
+				<div class="md-3">
+
+		    			<input type="checkbox" name="optradio1" value="NATUROPATHY">NATUROPATHY
+
+				</div>
+				<div class="md-3">
+
+		    			<input type="checkbox" name="optradio1" value="Any Other">Any Other
+
+			</div>
+
+			<div class="md-3">
+			    	<label for="HospitalName">Animal Bite Care</label>
+</div>
+			    	<label ><input type="radio" name="optradioanimal" value="True">YES</label>
+					<label><input type="radio" name="optradioanimal" value="False">NO</label>
+
+			    <div class="md-3">
+			    	<label for="HospitalName"class="labelfont">Rabies Prevention and Care</label>
+		</div>
+
+			    	<label><input type="radio" name="optradiorabies" value="True">YES</label>
+
+
+					<label><input type="radio" name="optradiorabies" value="False">NO</label>
+
+		<div class="md-3">
+
+			    	<label for="HospitalName">Poisoning Centre Cure</label>
+			    </div>
+
+			    	<label ><input type="radio" name="optradiopoisoning" value="True">YES</label>
+
+
+					<label><input type="radio" name="optradiopoisoning" value="False">NO</label>
+			  <div class="md-3">
+
+			    	<label for="HospitalName"class="labelfont">Drug De Addiction </label>
+			    </div>
+
+			    	<label><input type="radio" name="optradiodrug" value="True">YES</label>
+
+
+					<label><input type="radio" name="optradiodrug" value="False">NO</label>
+
+              <div class="md-3">
+
+		    			<input type="checkbox" name="foreign" value="True">Foreign Patient Care
+						<input type="checkbox" name="foreign" value="True">International Patient Wing
+
+				</div>
+
+            <div class="mb-3">
+              <label for="noofdoctor">Number of Doctor's</label>
+              <input type="number" class="form-control" id="nosdoctor" name="nosdoctor">
+            </div>
+
+			<div class="mb-3">
+              <label for="Consultants">Number of Consultants or Experts</label>
+              <input type="number" class="form-control" id="nmce" name="nmce">
+            </div>
+
+			<div class="mb-3">
+              <label for="Beds">Number of Bed's</label>
+              <input type="number" class="form-control" id="nosbed" name="nosbed">
+            </div>
+
+			<div class="mb-3">
+              <label for="ward">Number of Private Wards</label>
+              <input type="number" class="form-control" id="ward" name="ward">
+            </div>
+
+			<div class="mb-3">
+              <label for="Ambulance">Ambulance Number</label>
+              <input type="number" class="form-control" id="ambulance" name="ambulance">
+            </div>
+
+			<div class="mb-3">
+              <label for="Bloodbank">Blood Bank Phone Number</label>
+              <input type="number" class="form-control" id="bloodbank" name="bloodbank">
+            </div>
+
+			<div class="mb-3">
+              <label for="Toll">Tollfree Number</label>
+              <input type="number" class="form-control" id="toll" name="toll">
+            </div>
+
+			<div class="mb-3">
+              <label for="Hospital Fax Number">Helpline Number</label>
+              <input type="number" class="form-control" id="helpline" name="helpline">
+            </div>
+
+			<div class="mb-3">
+              <label for="Fax">Hospital Fax Number</label>
+              <input type="number" class="form-control" id="fax" name="fax">
+            </div>
+
+			<div class="mb-3">
+			    <label for="website">Website</label>
+			    <input type="text" class="form-control" id="hospwebsite" name="hospwebsite" placeholder="Website">
+			 </div>
+
+			<div class="md-3">
+			    <label for="Establish Year">Establish Year</label>
+			    <input type="text" class="form-control" id="year" name="year" placeholder="Year">
+			</div>
+
+
+
+            <hr class="mb-4">
+            <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
+          </form>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+    <script src="../../assets/js/vendor/popper.min.js"></script>
+    <script src="../../dist/js/bootstrap.min.js"></script>
+    <script src="../../assets/js/vendor/holder.min.js"></script>
+    <script>
+      // Example starter JavaScript for disabling form submissions if there are invalid fields
+      (function() {
+        'use strict';
+
+        window.addEventListener('load', function() {
+          // Fetch all the forms we want to apply custom Bootstrap validation styles to
+          var forms = document.getElementsByClassName('needs-validation');
+
+          // Loop over them and prevent submission
+          var validation = Array.prototype.filter.call(forms, function(form) {
+            form.addEventListener('submit', function(event) {
+              if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+              }
+              form.classList.add('was-validated');
+            }, false);
+          });
+        }, false);
+      })();
+    </script>
+  </body>
+</html>

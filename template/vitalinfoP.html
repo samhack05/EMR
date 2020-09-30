@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <title>EMR | Dashboard</title>
+<!---->{% load static %}
+  <!-- Bootstrap core CSS -->
+  <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <!-- Custom styles for this template -->
+  <link href="{% static 'css/simple-sidebar.css' %}" rel="stylesheet">
+
+</head>
+<body>
+  <div class="d-flex" id="wrapper">
+    <!-- Sidebar -->
+    <div class="border-right" id="sidebar-wrapper">
+      <div class="sidebar-heading">Hello, {{request.user.first_name|capfirst}}</div>
+      <div class="list-group list-group-flush">
+        <a href="/user/Dashboard/" class="list-group-item list-group-item-action bg-light">Dashboard<span class="sr-only">(current)</span></a>
+        <a href="/user/account" class="list-group-item list-group-item-action bg-light">Account</a>
+        <a href="/user/labreports" class="list-group-item list-group-item-action bg-light">Lab Reports</a>
+        <a href="/user/Medications" class="list-group-item list-group-item-action bg-light">Prescription & Medications</a>
+        <a href="/user/vitalinfo" class="list-group-item list-group-item-action bg-light">Vital Records</a>
+        <a href="/user/billDisgrecords" class="list-group-item list-group-item-action bg-light">Bills & Discharge records</a>
+
+        <a href="/user/DiseaseRecords" class="list-group-item list-group-item-action bg-light">Problems & Disease Records</a>
+        <a href="/user/Insurance" class="list-group-item list-group-item-action bg-light">Insurance</a>
+        <a href="/user/PredictDisease" class="list-group-item list-group-item-action bg-light">Predict Disease</a>
+        <a href="/user/Notifications" class="list-group-item list-group-item-action bg-light">Notifications</a>
+      </div>
+    </div>
+    <!-- /#sidebar-wrapper -->
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+
+      <nav class="navbar navbar-expand-lg  border-bottom navbar-dark bg-primary sticky-top">
+        <button class="btn btn-primary" id="menu-toggle">Menu</button>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+        <a class="nav-link" href="/logout/">Logout</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <div class="container-fluid">
+</br>
+<h3>Vital Informations</h3></br>
+<div class="table-responsive">
+<table class="table table-striped">
+  <thead >
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Body Temperature</th>
+      <th scope="col">SYS</th>
+      <th scope="col">DIA</th>
+	  <th scope="col">Heart Rate</th>
+	  <th scope="col">Breathing Rate</th>
+	  <th scope="col">Blood Glucose</th>
+	  <th scope="col">SPO2</th>
+	  <th scope="col">Other</th>
+	  <th scope="col">Other</th>
+	  <th scope="col">Added By</th>
+	  <th scope="col">Date</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for rec in patientvitalinfoobj %}
+    <tr>
+      <th scope="row">{{rec.pk}}</th>
+      <td>{{rec.bodytemp}}</td>
+      <td>{{rec.bpsys}}</td>
+      <td>{{rec.bpdia}}</td>
+	  <td>{{rec.heartrate}}</td>
+	  <td>{{rec.breathingrate}}</td>
+	 <td>{{rec.bloodglucose}}</td>
+	 <td>{{rec.oxygensaturation}}</td>
+	 <td>{{rec.other}}</td>
+	 <td>{{rec.other2}}</td>
+      <td>{{rec.addedby.first_name|capfirst }}&nbsp;{{rec.addedby.last_name|capfirst }}</td>
+	  <td>{{rec.dateadd|date:"D d M Y"}}</td>
+
+    </tr>
+
+    {% endfor %}
+  </tbody>
+</table>
+
+<div class="pagination float-right">
+                <span class="step-links">
+                    {% if patientvitalinfoobj.has_previous %}
+                        <a href="?patientvitalinfo_records_list_page=1">&laquo; first</a>
+                        <a href="?patientvitalinfo_records_list_page={{ patientvitalinfoobj.previous_page_number }}">previous</a>
+                    {% endif %}
+                    <span class="current">
+                        List {{ patientvitalinfoobj.number }} of {{ patientvitalinfoobj.paginator.num_pages }}.
+                    </span>
+                    {% if patientvitalinfoobj.has_next %}
+                        <a href="?patientvitalinfo_records_list_page={{ patientvitalinfoobj.next_page_number }}">next</a>
+                        <a href="?patientvitalinfo_records_list_page={{ patientvitalinfoobj.paginator.num_pages }}">last &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
+<!--
+<div class="custom-control custom-checkbox">
+  <input type="checkbox" class="custom-control-input" id="customCheck1" name="customCheck1">
+  <label class="custom-control-label" for="customCheck1">Alcoholic</label>
+</div>
+<div class="custom-control custom-checkbox">
+  <input type="checkbox" class="custom-control-input" id="customCheck2" name="customCheck2">
+  <label class="custom-control-label" for="customCheck2">Cigarette</label>
+</div>
+<div class="custom-control custom-checkbox">
+  <input type="checkbox" class="custom-control-input" id="customCheck3" name="customCheck3">
+  <label class="custom-control-label" for="customCheck3">Diabetic</label>
+</div>
+-->
+<h3>Allergy</h3></br>
+<div class="table-responsive">
+<table class="table table-striped">
+  <thead >
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Name</th>
+      <th scope="col">Active</th>
+      <th scope="col">From</th>
+	  <th scope="col">Till</th>
+	  <th scope="col">Level</th>
+	  <th scope="col">Added By</th>
+	  <th scope="col">Date</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for rec in PatientAllergyobj %}
+    <tr>
+      <th scope="row">{{rec.pk}}</th>
+      <td>{{rec.allergyname}}</td>
+      <td>{% if rec.is_active %} Yes {% else %} No {% endif %}</td>
+      <td>{{rec.allergy_occur_date|date:"D d M Y"}}</td>
+	  <td>{{rec.allergy_till_date|date:"D d M Y"}}</td>
+	  <td>{{rec.allergy_level}}</td>
+	 <td>{{rec.addedby.first_name|capfirst }}&nbsp;{{rec.addedby.last_name|capfirst }}</td>
+	  <td>{{rec.dateadd|date:"D d M Y"}}</td>
+    </tr>
+    {% endfor %}
+
+  </tbody>
+</table>
+
+<div class="pagination float-right">
+                <span class="step-links">
+                    {% if PatientAllergyobj.has_previous %}
+                        <a href="?PatientAllergy_records_list_page=1">&laquo; first</a>
+                        <a href="?PatientAllergy_records_list_page={{ PatientAllergyobj.previous_page_number }}">previous</a>
+                    {% endif %}
+                    <span class="current">
+                        List {{ PatientAllergyobj.number }} of {{ PatientAllergyobj.paginator.num_pages }}.
+                    </span>
+                    {% if PatientAllergyobj.has_next %}
+                        <a href="?PatientAllergy_records_list_page={{ PatientAllergyobj.next_page_number }}">next</a>
+                        <a href="?PatientAllergy_records_list_page={{ PatientAllergyobj.paginator.num_pages }}">last &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
+  <br>
+  <br>
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal4">
+  Add
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal4" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel4" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel4">Add Allergy</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="POST">{% csrf_token %}
+		<label for="allergy">Name of Allergy</label>
+		<input type="text" class="form-control form-control-sm" id="allergy" name="allergy">
+		<label for="customRadio1">Level of Allergy</label>
+		<div class="custom-control custom-radio">
+  <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input" value="High">
+  <label class="custom-control-label" for="customRadio1">High</label>
+</div>
+<div class="custom-control custom-radio">
+  <input type="radio" id="customRadio2" name="customRadio" class="custom-control-input" value="Medium">
+  <label class="custom-control-label" for="customRadio2">Medium</label>
+</div>
+<div class="custom-control custom-radio">
+  <input type="radio" id="customRadio3" name="customRadio" class="custom-control-input" value="Low">
+  <label class="custom-control-label" for="customRadio3">Low</label>
+</div>
+      </div>
+
+<div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Add</button></form>
+      </div>      </div>
+
+  </div>
+</div>
+      </div>
+    </div>
+    <!-- /#page-content-wrapper -->
+
+  </div>
+  <!-- /#wrapper -->
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+  <!-- Menu Toggle Script -->
+  <script>
+    $("#menu-toggle").click(function(e) {
+      e.preventDefault();
+      $("#wrapper").toggleClass("toggled");
+    });
+  </script>
+    </div>
+  </div>
+</body>
+
+</html>

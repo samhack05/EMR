@@ -1,0 +1,4 @@
+Migrations for 'Hospital':
+  Hospital\migrations\0013_auto_20200724_1704.py
+    - Alter field otp on hospitalcircle
+    - Create model LabCircle

@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+  <head>
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/docs/4.1/assets/img/favicons/favicon.ico">
+
+    <title>Nurse Registration</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.1/examples/checkout/">
+
+    <!-- Bootstrap core CSS -->
+    <link href="../../dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="form-validation.css" rel="stylesheet">
+  </head>
+
+  <body class="bg-light">
+
+  {% include 'messaging.html'%}
+    <div class="container">
+      <div class="py-5 text-center">
+        <img class="d-block mx-auto mb-4" src="../../assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+        <h2>Nurse Registration form</h2>
+        <p class="lead">Each required form group has a validation state that can be triggered by attempting to submit the form without completing it.</p>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4 order-md-2 mb-4"><!-- used afterwards -->
+        </div>
+        <div class="col-md-8 order-md-1">
+          <h4 class="mb-3">Nurse Details</h4>
+          <form class="needs-validation" method="POST" novalidate>
+               {% csrf_token %}
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="firstName">First name</label>
+                <input type="text" class="form-control" id="firstname" name="firstname" placeholder="" value="" required>
+                <div class="invalid-feedback">
+                  Valid first name is required.
+                </div>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="lastName">Last name</label>
+                <input type="text" class="form-control" id="lastname" name="lastname" placeholder="" value="" required>
+                <div class="invalid-feedback">
+                  Valid last name is required.
+                </div>
+              </div>
+            </div>
+            			<div class="mb-3">
+              <label for="email">Email ID</label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">@</span>
+                </div>
+                <input type="email" class="form-control" id="email" name="email" placeholder="forexample@gmail.com" required>
+                <div class="invalid-feedback" style="width: 100%;">
+                  Your username is required.
+                </div>
+              </div>
+            </div>
+
+			  <div class="mb-3">
+              <label for="password">Password</label>
+              <input type="password" class="form-control" id="password" name="password" placeholder="">
+              <div class="invalid-feedback">
+                Please enter a strong password.
+              </div>
+            </div>
+
+			<div class="mb-3">
+              <label for="cpassword">Confirm Password</label>
+              <input type="password" class="form-control" id="cpassword" name="password2" placeholder="Password">
+              <div class="invalid-feedback">
+                Please confirm your password.
+              </div>
+            </div>
+
+			<div class="mb-3">
+              <label for="mobile">Mobile Number</label>
+              <input type="number" class="form-control" id="mobile" name="mobile">
+            </div>
+			<div class="mb-3">
+              <label for="address">Address</label>
+              <input type="text" class="form-control" id="address" name="address">
+              <div class="invalid-feedback">
+                Please enter your shipping address.
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="city">City</label>
+              <input type="text" class="form-control" id="city" name="city" placeholder="Enter your city name">
+            </div>
+			
+			<div class="mb-3">
+              <label for="pincode">Pincode</label>
+              <input type="number" class="form-control" id="pincode" name="pincode" placeholder="Enter your area's pincode">
+            </div>
+			
+			<div class="mb-3">
+              <label for="state">State</label>
+              <input type="text" class="form-control" id="state" name="state" placeholder="Enter your state">
+            </div>
+			
+			<div class="md-3">
+	        <label for="Proof">Government ID Proof</label>
+          <select name="proof" id="proof">
+          <option value="1">Aadhar Card</option>
+		  <option value="2">Driving License</option>
+		  <option value="3">Passport</option>
+			    </select>
+			</div>
+			<div class="md-3">
+			    <label for="govid">Government ID Number</label>
+			    <input type="number" class="form-control" id="govid" name="govid">
+			</div>
+			<div class="md-3">
+			    <label for="Doc">Document</label>
+			    <input type="file" class="form-control" id="doc" name="doc">
+			</div>
+			
+			<hr class="mb-4">
+            <button class="btn btn-primary btn-lg btn-block" type="submit">Register</button>
+          </form>
+        </div>
+      </div>
+
+    </div>
+			<!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+    <script src="../../assets/js/vendor/popper.min.js"></script>
+    <script src="../../dist/js/bootstrap.min.js"></script>
+    <script src="../../assets/js/vendor/holder.min.js"></script>
+    <script>
+      // Example starter JavaScript for disabling form submissions if there are invalid fields
+      (function() {
+        'use strict';
+
+        window.addEventListener('load', function() {
+          // Fetch all the forms we want to apply custom Bootstrap validation styles to
+          var forms = document.getElementsByClassName('needs-validation');
+
+          // Loop over them and prevent submission
+          var validation = Array.prototype.filter.call(forms, function(form) {
+            form.addEventListener('submit', function(event) {
+              if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+              }
+              form.classList.add('was-validated');
+            }, false);
+          });
+        }, false);
+      })();
+    </script>
+  </body>
+</html>

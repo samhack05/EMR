@@ -1,0 +1,1302 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Doctor Dashboard | EMR | NEC</title>
+        <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" crossorigin="anonymous"></script>
+
+      <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
+     <style>
+                          .autocomplete {
+              position: relative;
+              display: inline-block;
+            }
+
+            input {
+              border: 1px solid transparent;
+              background-color: #f1f1f1;
+              padding: 10px;
+              font-size: 16px;
+            }
+
+            input[type=text] {
+              background-color: #f1f1f1;
+              width: 100%;
+            }
+
+            input[type=submit] {
+              background-color: DodgerBlue;
+              color: #fff;
+              cursor: pointer;
+            }
+
+            .autocomplete-items {
+              position: absolute;
+              border: 1px solid #d4d4d4;
+              border-bottom: none;
+              border-top: none;
+              z-index: 99;
+              /*position the autocomplete items to be the same width as the container:*/
+              top: 100%;
+              left: 0;
+              right: 0;
+            }
+
+            .autocomplete-items div {
+              padding: 10px;
+              cursor: pointer;
+              background-color: #fff;
+              border-bottom: 1px solid #d4d4d4;
+            }
+
+            /*when hovering an item:*/
+            .autocomplete-items div:hover {
+              background-color: #e9e9e9;
+            }
+
+            /*when navigating through the items using the arrow keys:*/
+            .autocomplete-active {
+              background-color: DodgerBlue !important;
+              color: #ffffff;
+            }
+          </style>
+    </head>
+    <body class="sb-nav-fixed">
+        <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+            <a class="navbar-brand" href="/management/DoctorDashboard/">Doctor's Dashboard</a>
+            <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button>
+            <!-- Navbar Search-->
+             <!--    <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+           <div class="input-group">
+                    <input class="form-control" type="text" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2" />
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="button"><i class="fas fa-search"></i></button>
+                    </div>
+                </div>
+            </form>-->
+            <!-- Navbar-->
+            <ul class="navbar-nav ml-auto ml-md-0 d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="userDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                        <a class="dropdown-item" href="#">Settings</a>
+                        <a class="dropdown-item" href="#">Activity Log</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="/logout/">Logout</a>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+        <div id="layoutSidenav">
+            <div id="layoutSidenav_nav">
+                <nav class="sb-sidenav accordion sb-sidenav-light" id="sidenavAccordion">
+                    <div class="sb-sidenav-menu">
+                        <div class="nav">
+                            <div class="sb-sidenav-menu-heading">Core</div>
+                            <a class="nav-link" href="/management/DoctorDashboard/">
+                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                Dashboard
+                            </a>
+                            <div class="sb-sidenav-menu-heading">Account</div>
+                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                                <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                                Settings
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="#">Change Password</a>
+                                    <a class="nav-link" href="#">Update Information</a>
+                                </nav>
+                            </div>
+                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
+                                <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                                Hospital
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="sb-sidenav-footer">
+                        <div class="small">Logged in as:</div>
+                        {{request.user}}
+                    </div>
+                </nav>
+            </div>
+            <div id="layoutSidenav_content">
+                <main>
+
+      <div class="container-fluid">
+          <div class="card">
+  <div class="card-body"><form method="POST"> {% csrf_token %}
+        <input type="number" value="1" name="formno" hidden>
+    <h3 class="card-title">Basic Info</h3>
+	<img src= "{{objPatientBasicInfo.profilepic.url}}" width="200px" height="230px"
+         align="right">
+  <div class="form-row">
+    <div class="form-group col-md-3">
+      <label for="name">Name</label>
+      <input type="text" class="form-control form-control-sm" id="name" name="name" value="{{Patientobj.firstname|capfirst}}&nbsp;{{Patientobj.lastname|capfirst}}" readonly>
+    </div>
+    <div class="form-group col-md-3">
+      <label for="email">Email</label>
+      <input type="email" class="form-control form-control-sm" id="email" name="email" value="{{Patientobj.Email}}" readonly>
+    </div>
+	 <div class="form-group col-md-3">
+      <label for="mobile">Mobile Number</label>
+      <input type="number" class="form-control form-control-sm" id="mobile" name="mobile" placeholder="Mobile Number" value="{{Patientobj.ContactNo}}" readonly>
+    </div>
+	 <div class="form-group col-md-3">
+      <label for="email">Gender</label>
+      <input type="text" class="form-control form-control-sm" id="gender" name="gender" placeholder="Gender" value="{{objPatientBasicInfo.Gender}}" readonly>
+    </div>
+
+  </div>
+
+  <div class="form-row">
+  <div class="form-group col-md-3">
+  <label for="inputAddress">Address</label>
+    <input type="text" class="form-control form-control-sm" id="inputAddress" name="addr" placeholder="1234 Main St" value="{{Patientobj.Address|capfirst}}" readonly></div>
+    <div class="form-group col-md-3">
+      <label for="inputCity">City</label>
+      <input type="text" class="form-control form-control-sm" id="inputCity" name="city" value="{{Patientobj.City|capfirst}}" readonly>
+    </div>
+    <div class="form-group col-md-3">
+      <label for="inputState">State</label>
+      <input type="text" class="form-control form-control-sm" id="inputstate" name="state" value="{{Patientobj.State|capfirst}}" readonly>
+    </div>
+    <div class="form-group col-md-3">
+      <label for="inputZip">Pincode</label>
+      <input type="text" class="form-control form-control-sm" id="inputZip" name="zip" value="{{Patientobj.PinCode}}" readonly>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group col-md-3">
+      <label for="dob">Date of Birth</label>
+      <input type="date" class="form-control form-control-sm" id="dob" name="dob" placeholder="DOB" value="{{objPatientBasicInfo.dateofbirth| date:'Y-m-d'}}" readonly>
+    </div>
+
+    <div class="form-group col-md-3">
+      <label for="blood">Blood Group</label>
+      <input type="text" class="form-control form-control-sm" id="blood" name="blood" placeholder="Blood Group" value="{{objPatientBasicInfo.Bloodgroup}}" readonly>
+    </div>
+
+    <div class="form-group col-md-3">
+      <label for="height">Height</label>
+      <input type="text" class="form-control form-control-sm" id="height" name="height" placeholder="Height" value="{{objPatientBasicInfo.height}}" onclick="record('height', 'weight')">
+    </div>
+    <div class="form-group col-md-3">
+      <label for="weight">Weight</label>
+      <input type="text" class="form-control form-control-sm" id="weight" name="weight" placeholder="Weight" value="{{objPatientBasicInfo.weight}}" onclick="record('weight')">
+
+    </div>
+    <div class="form-group col-md-1">
+      <center><button value="Submit">Update</button></center>
+    </div></form>
+	</div>
+ </div>
+
+      <div class="card">
+  <div class="card-body">
+  <div class="row">
+  <div class="col-sm-4">
+  <div class="card" style="width: 21rem; Height: 28rem;">
+  <div class="card-header" style="width: 21rem;">
+    Vital Info list
+  </div>
+  <div class="card-body"><p class="card-text">
+    {% if patientvitalinfoobj %}
+		Body Temperature: <b>{{patientvitalinfoobj.bodytemp}}</b><br>
+		BP SYS: <b>{{patientvitalinfoobj.bpsys}}</b><br>
+		BP DIA: <b>{{patientvitalinfoobj.bpdia}}</b><br>
+		Heart Rate: <b>{{patientvitalinfoobj.heartrate}}</b><br>
+		Breathing Rate: <b>{{patientvitalinfoobj.breathingrate}}</b><br>
+		Blood Glucose: <b>{{patientvitalinfoobj.bloodglucose}}</b><br>
+		Oxygen Saturation: <b>{{patientvitalinfoobj.oxygensaturation}}</b><br>
+        {% if patientvitalinfoobj.other %}
+          <b>{{patientvitalinfoobj.other}}</b><br>
+        {% endif %}
+        {% if patientvitalinfoobj.other2 %}
+          <b>{{patientvitalinfoobj.other2}}</b><br>
+        {% endif %}
+        {% if patientvitalinfoobj.dibetic%}
+            <b>Diabetic</b><br>
+        {% endif %}
+        {% if patientvitalinfoobj.alcoholic%}
+            <b>Alcoholic</b><br>
+        {% endif %}
+        {% if patientvitalinfoobj.cigrate%}
+            <b>Tobacco smoking</b><br>
+        {% endif %}
+        Added By : {{patientvitalinfoobj.addedby.first_name|capfirst}}&nbsp;{{patientvitalinfoobj.addedby.last_name|capfirst}}<br>
+        Added On : {{patientvitalinfoobj.dateadd| date:'Y-m-d'}}<br>
+    {% endif %}
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add Vital Info</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="POST"> {% csrf_token %}
+        <input type="number" value="2" name="formno" hidden>
+		<label for="temp">Body Temperature:</label>
+		<input type="number" class="form-control form-control-sm" id="temp" name="temp" onmouseenter="record('temp', 'bp')">
+		<label for="bp">BPSYS</label>
+		<input type="number" class="form-control form-control-sm" id="bp" name="bp" onmouseenter="record_01('bp' ,'dia')">
+		<label for="dia">BPDIA</label>
+		<input type="number" class="form-control form-control-sm" id="dia" name="dia" onmouseenter="record('dia', 'hrate')">
+		<label for="hrate">Heart Rate</label>
+		<input type="number" class="form-control form-control-sm" id="hrate" name="hrate" onmouseenter="record('hrate', 'brate')">
+		<label for="brate">Breathing Rate</label>
+		<input type="number" class="form-control form-control-sm" id="brate" name="brate" onmouseenter="record('brate', 'bg')">
+		<label for="bg">Blood Glucose</label>
+		<input type="number" class="form-control form-control-sm" id="bg" name="bg" onmouseenter="record('bg', 'oxy')">
+		<label for="oxy">Oxygen Saturation</label>
+		<input type="number" class="form-control form-control-sm" id="oxy" name="oxy" onmouseenter="record('oxy')">
+		<div class="mb-3">
+		    	<input type="checkbox" name="1" value="1">Diabetic
+		  	</div>
+			<div class="mb-3">
+		    	<input type="checkbox" name="2" value="1">Alcoholic</div>
+			<div class="mb-3">
+		    	<input type="checkbox" name="3" value="1">Tobacco smoking
+		  	</div>
+
+		<label for="other">Other1</label>
+		<input type="text" class="form-control form-control-sm" id="other" name="other">
+		<label for="other1">Other2</label>
+		<input type="text" class="form-control form-control-sm" id="other1" name="other1">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary" value="submit">Save changes</button></form>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+  </div> <div class="card-footer text-muted">
+    <button type="button" class="btn btn-primary"data-toggle="modal" data-target="#exampleModal">Add New Record</button>
+  </div>
+</div>
+</div>
+<div class="col-sm-4">
+<div class="card" style="width: 21rem; Height: 28rem;">
+  <div class="card-header" style="width: 21rem;">
+    Problem List
+  </div>
+  <div class="card-body">
+    <p class="card-text"><ul class="list-group list-group-flush">
+        {% for precord in PatientProblemobj %}
+            {% if precord.is_active %}
+            <li><p style="color: #ff8080;"><b>{{precord.problem|capfirst}}</b>&nbsp;{{precord.problem_occur_date}} <a href="1/{{precord.pk}}"><button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></a></p>
+             </li>{% else %}
+            <li><p style="color: #008000;">{{precord.problem|capfirst}}&nbsp{{precord.problem_occur_date}}</p></li>
+            {% endif %}
+        {% endfor %}</ul></p>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel1">Add Problem</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="POST"> {% csrf_token %}
+        <input type="number" value="3" name="formno" hidden>
+    <label for="prob">Enter your problem</label>
+    <input type="text" class="form-control" id="prob" name="prob" onclick="record('prob')">
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Save changes</button>
+      </div> </form>
+    </div>
+  </div>
+</div>
+
+  </div>
+
+ <div class="card-footer text-muted">
+   <div class="pagination float-right">
+                <span class="step-links">
+                    {% if PatientProblemobj.has_previous %}
+                        <a href="?patient_list_page=1">&laquo; first</a>
+                        <a href="?patient_list_page={{ PatientProblemobj.previous_page_number }}">previous</a>
+                    {% endif %}
+                    <span class="current">
+                        List {{ PatientProblemobj.number }} of {{ PatientProblemobj.paginator.num_pages }}.
+                    </span>
+                    {% if PatientProblemobj.has_next %}
+                        <a href="?patient_list_page={{ PatientProblemobj.next_page_number }}">next</a>
+                        <a href="?patient_list_page={{ PatientProblemobj.paginator.num_pages }}">last &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
+	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal1">
+  Add
+</button>
+ </div>
+</div>
+
+
+
+</div>
+<div class="col-sm-4">
+<div class="card" style="width: 21rem; Height: 28rem;">
+  <div class="card-header" style="width: 21rem;">
+    Symptom List
+  </div>
+  <div class="card-body"><ul class="list-group list-group-flush">
+{% for symprec in PatientSymtomsobj %}
+      {% if symprec.is_active %}
+    <li><p style="color: #ff8080;"><b>{{symprec.symptom|capfirst}}</b>&nbsp;{{symprec.occur_date}}<a href="2/{{symprec.pk}}"><button type="button" class="close" aria-label="Close">
+        <span aria-hidden="true">&times;</span></button></a></p></li>
+
+      {% else %}
+      <li><p style="color: #008000;">{{symprec.symptom|capfirst}}&nbsp{{symprec.occur_date}}</p></li>
+        {% endif %}
+    {% endfor %}</ul>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel2">Add Symptoms</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="POST"> {% csrf_token %}
+    <input type="number" value="4" name="formno" hidden>
+    <label for="symp">Enter symptoms</label>
+    <input type="text" class="form-control" id="symp" name="symp" onclick="record('symp')">
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Save changes</button></form>
+      </div>
+    </div>
+  </div>
+</div>
+
+  </div>
+  <div class="card-footer text-muted">
+    <div class="pagination float-right">
+                <span class="step-links">
+                    {% if PatientSymtomsobj.has_previous %}
+                        <a href="?patient_list_page2=1">&laquo; first</a>
+                        <a href="?patient_list_page2={{ PatientSymtomsobj.previous_page_number }}">previous</a>
+                    {% endif %}
+                    <span class="current">
+                        List {{ PatientSymtomsobj.number }} of {{ PatientSymtomsobj.paginator.num_pages }}.
+                    </span>
+                    {% if PatientSymtomsobj.has_next %}
+                        <a href="?patient_list_page2={{ PatientSymtomsobj.next_page_number }}">next</a>
+                        <a href="?patient_list_page2={{ PatientSymtomsobj.paginator.num_pages }}">last &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal2">Add</button>
+</div>
+</div>
+
+
+
+</div></div></div></div>
+
+
+	<div class="card">
+  <div class="card-body">
+  <div class="row">
+  <div class="col-sm-4">
+  <div class="card" style="width: 21rem; Height: 18rem;">
+  <div class="card-header" style="width: 21rem;">
+    Lab Reports
+  </div>
+  <div class="card-body"><p class="card-text"><ul class="list-group list-group-flush">
+  {% for labrec in Patientlab_recordsobj%}
+    <li><a href="{{labrec.testreport.url}}">{{labrec.testname|capfirst}}&nbsp;{{labrec.testdate}}</a></li>
+  {% endfor %}</ul>
+  </div>
+ <div class="card-footer text-muted">
+   <div class="pagination float-right">
+                <span class="step-links">
+                    {% if Patientlab_recordsobj.has_previous %}
+                        <a href="?patient_list_page3=1">&laquo; first</a>
+                        <a href="?patient_list_page3={{ Patientlab_recordsobj.previous_page_number }}">previous</a>
+                    {% endif %}
+                    <span class="current">
+                        List {{ Patientlab_recordsobj.number }} of {{ Patientlab_recordsobj.paginator.num_pages }}.
+                    </span>
+                    {% if Patientlab_recordsobj.has_next %}
+                        <a href="?patient_list_page3={{ Patientlab_recordsobj.next_page_number }}">next</a>
+                        <a href="?patient_list_page3={{ Patientlab_recordsobj.paginator.num_pages }}">last &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
+ </div>
+</div>
+</div>
+
+
+
+<div class="col-sm-4">
+<div class="card" style="width: 21rem; Height: 18rem;">
+  <div class="card-header" style="width: 21rem;">
+   Allergy List
+  </div>
+  <div class="card-body">
+    <p class="card-text"></p><ul class="list-group list-group-flush">
+    {% for allergy in PatientAllergyobj %}
+      <li>{{allergy.allergyname|capfirst}}&nbsp;Level:&nbsp;{{allergy.allergy_level|capfirst}}&nbsp;{{allergy.allergy_occur_date}}</li>
+      {% endfor %}</ul>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal4" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel4" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel4">Add Allergy</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="POST"> {% csrf_token %}
+        <input type="number" value="5" name="formno" hidden>
+		<label for="allergy">Name of Allergy</label>
+		<input type="number" class="form-control form-control-sm" id="allergy" name="allergy" onclick="record('allergy')">
+		<label for="customRadio1">Level of Allergy</label>
+		<div class="custom-control custom-radio">
+              <input type="radio" id="customRadio1" name="customRadioallergy" value="High" class="custom-control-input">
+              <label class="custom-control-label" for="customRadio1">High</label>
+            </div>
+            <div class="custom-control custom-radio">
+              <input type="radio" id="customRadio2" name="customRadioallergy" value="Medium" class="custom-control-input">
+              <label class="custom-control-label" for="customRadio2">Medium</label>
+            </div>
+            <div class="custom-control custom-radio">
+              <input type="radio" id="customRadio3" name="customRadioallergy" value="Low" class="custom-control-input">
+              <label class="custom-control-label" for="customRadio3">Low</label>
+            </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">ADD</button></form>
+      </div>
+    </div>
+  </div>
+</div>
+
+  </div>
+    <div class="card-footer text-muted">
+    <div class="pagination float-right">
+                <span class="step-links">
+                    {% if PatientAllergyobj.has_previous %}
+                        <a href="?patient_list_page4=1">&laquo; first</a>
+                        <a href="?patient_list_page4={{ PatientAllergyobj.previous_page_number }}">previous</a>
+                    {% endif %}
+                    <span class="current">
+                        List {{ PatientAllergyobj.number }} of {{ PatientAllergyobj.paginator.num_pages }}.
+                    </span>
+                    {% if PatientAllergyobj.has_next %}
+                        <a href="?patient_list_page4={{ PatientAllergyobj.next_page_number }}">next</a>
+                        <a href="?patient_list_page4={{ PatientAllergyobj.paginator.num_pages }}">last &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
+     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal4">Add</button>
+</div>
+</div>
+</div>
+<div class="col-sm-4">
+<div class="card" style="width: 21rem; Height: 18rem;">
+  <div class="card-header" style="width: 21rem;">
+    Prescription List
+  </div>
+  <div class="card-body">
+    <p class="card-text">
+        {% for PresRec in PatientPrescriptionobj %}
+            Directions: {{PresRec.directions|capfirst}} <br>
+            From:&nbsp;{{PresRec.date_from}}&nbsp;Till:&nbsp;{{PresRec.date_till}}<br>
+            Dr. {{PresRec.addedby.first_name|capfirst}}&nbsp;{{PresRec.addedby.last_name|capfirst}}<br>
+         {% endfor %}
+    </p>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal5" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel5" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel5">Add Prescription</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="POST"> {% csrf_token %}
+<input type="number" value="6" name="formno" hidden>
+		<div class="form-group">
+    <label for="pres">Prescription</label>
+    <textarea class="form-control" id="pres" name="pres" rows="5"></textarea>
+	<label for="fro">From</label>
+	<input type="date" class="form-control" id="fro" name="from">
+	<label for="till">Till</label>
+	<input type="date" class="form-control" id="till" name="till">
+  </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Save changes</button></form>
+      </div>
+    </div>
+  </div>
+</div></div>
+<div class="card-footer text-muted">
+    <div class="pagination float-right">
+                <span class="step-links">
+                    {% if PatientPrescriptionobj.has_previous %}
+                        <a href="?patient_list_page5=1">&laquo; first</a>
+                        <a href="?patient_list_page5={{ PatientPrescriptionobj.previous_page_number }}">previous</a>
+                    {% endif %}
+                    <span class="current">
+                        List {{ PatientPrescriptionobj.number }} of {{ PatientPrescriptionobj.paginator.num_pages }}.
+                    </span>
+                    {% if PatientPrescriptionobj.has_next %}
+                        <a href="?patient_list_page5={{ PatientPrescriptionobj.next_page_number }}">next</a>
+                        <a href="?patient_list_page5={{ PatientPrescriptionobj.paginator.num_pages }}">last &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
+	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal5">Add</button>
+</div>
+
+</div></div></div></div></div>
+
+
+	<div class="card">
+  <div class="card-body">
+  <div class="row">
+
+  <div class="col-sm-4">
+  <div class="card" style="width: 21rem; Height: 30rem;">
+  <div class="card-header" style="width: 21rem;">
+    Medication List
+  </div>
+  <div class="card-body"><p class="card-text">
+
+    <p class="card-text"><ul class="list-group list-group-flush">
+      {% for medrec in PatientMedicationnobj %}
+        <li>{{medrec.medicinename|capfirst}}|{{medrec.medicationcode|capfirst}}&nbsp;{{medrec.direction|capfirst}}<br>From:{{medrec.date_from}}&nbsp;Till:{{medrec.date_till}}<br>
+            Dr.&nbsp;{{medrec.addedby.first_name|capfirst}}&nbsp;{{medrec.addedby.last_name|capfirst}}</li>
+      {% endfor %}</ul>
+  </p>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal6" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel6" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel6">Add Medication</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+	  <form method="POST"  autocomplete="off"> {% csrf_token %}
+    <input type="number" value="7" name="formno" hidden>
+       <label for="medname"> Medication Name</label>
+          <select name="medname" class="form-control" >
+	   <!-- <input type="text" class="form-control" id="medname" name="medname" onclick="record('medname', 'medcode')"> -->
+              {% for val in medicinearr %}
+              <option value="{{val}}">{{val}}</option>
+              {% endfor %}
+              <br>
+              <input type="text" class="form-control" id="medname" name="medname" onclick="record('medname', 'medcode')">
+		</select>
+              <label for="medcode"> Medication Code</label>
+		 <input type="text" class="form-control" id="medcode" name="medcode" onmouseenter="record('medcode', 'direc')">
+		<label for="direc"> Direction</label>
+		 <input type="text" class="form-control" id="direc" name="direc" onmouseenter="record('direc', 'from1')">
+		<label for="from1"> From</label>
+		 <input type="date" class="form-control" id="from1" name="from1">
+		<label for="till"> Till</label>
+		 <input type="date" class="form-control" id="till1" name="till1">
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Save changes</button></form>
+      </div>
+    </div>
+  </div>
+</div>
+
+  </div><div class="card-footer text-muted">
+    <div class="pagination float-right">
+                <span class="step-links">
+                    {% if PatientMedicationnobj.has_previous %}
+                        <a href="?patient_list_page6=1">&laquo; first</a>
+                        <a href="?patient_list_page6={{ PatientMedicationnobj.previous_page_number }}">previous</a>
+                    {% endif %}
+                    <span class="current">
+                        List {{ PatientMedicationnobj.number }} of {{ PatientMedicationnobj.paginator.num_pages }}.
+                    </span>
+                    {% if PatientMedicationnobj.has_next %}
+                        <a href="?patient_list_page6={{ PatientMedicationnobj.next_page_number }}">next</a>
+                        <a href="?patient_list_page6={{ PatientMedicationnobj.paginator.num_pages }}">last &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
+	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal6">Add</button>
+</div>
+</div>
+</div>
+
+<div class="col-sm-4">
+  <div class="card" style="width: 21rem; Height: 30rem;">
+  <div class="card-header" style="width: 21rem;">
+   Disease List
+  </div>
+  <div class="card-body"><p class="card-text">
+
+    <p class="card-text"><ul class="list-group list-group-flush">
+      {% for Diserec in Patientdiseaseobj %}
+      <li>
+          {% if Diserec.is_active %}
+                <p style="color: #ff8080;"><b>{{Diserec.disease|capfirst}}&nbsp;</b>{{Diserec.disease_occur_date}}<a href="3/{{Diserec.pk}}"><button type="button" class="close" aria-label="Close">
+                 <span aria-hidden="true">&times;</span></button></a><br></p>
+          {% else %}
+      <p style="color: #008000;">{{Diserec.disease|capfirst}}&nbsp;{{Diserec.disease_occur_date}}<br></p>
+          {% endif %}
+
+      </li>
+      {% endfor %}</ul>
+  </p>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal8" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel6" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel8">Add Disease</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+	  <form method="POST"> {% csrf_token %}
+    <input type="number" value="8" name="formno" hidden>
+       <label for="mednamex"> Disease Name</label>
+	   <input type="text" class="form-control" id="mednamex" name="Diseasename" onclick="record('medmax')">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Save changes</button></form>
+      </div>
+    </div>
+  </div>
+</div>
+
+  </div><div class="card-footer text-muted">
+    <div class="pagination float-right">
+                <span class="step-links">
+                    {% if Patientdiseaseobj.has_previous %}
+                        <a href="?patient_list_page7=1">&laquo; first</a>
+                        <a href="?patient_list_page7={{ Patientdiseaseobj.previous_page_number }}">previous</a>
+                    {% endif %}
+                    <span class="current">
+                        List {{ Patientdiseaseobj.number }} of {{ Patientdiseaseobj.paginator.num_pages }}.
+                    </span>
+                    {% if Patientdiseaseobj.has_next %}
+                        <a href="?patient_list_page7={{ Patientdiseaseobj.next_page_number }}">next</a>
+                        <a href="?patient_list_page7={{ Patientdiseaseobj.paginator.num_pages }}">last &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
+	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal8">Add</button>
+</div>
+</div>
+</div>
+
+<div class="col-sm-4">
+<div class="card" style="width: 21rem; Height: 30rem;">
+  <div class="card-header" style="width: 21rem;">
+   Genetic Diseases
+  </div>
+  <div class="card-body">
+
+    <p class="card-text"><ul class="list-group list-group-flush">
+        {% for dec in geneticdiseaserec %}
+        <li>{{dec}}</li>
+        {% endfor %}</ul>
+    </p>
+
+  </div><div class="card-footer text-muted">
+    <div class="pagination float-right">
+                <span class="step-links">
+                    {% if Patientdiseaseobj.has_previous %}
+                        <a href="?patient_list_page7=1">&laquo; first</a>
+                        <a href="?patient_list_page7={{ Patientdiseaseobj.previous_page_number }}">previous</a>
+                    {% endif %}
+                    <span class="current">
+                        List {{ Patientdiseaseobj.number }} of {{ Patientdiseaseobj.paginator.num_pages }}.
+                    </span>
+                    {% if Patientdiseaseobj.has_next %}
+                        <a href="?patient_list_page7={{ Patientdiseaseobj.next_page_number }}">next</a>
+                        <a href="?patient_list_page7={{ Patientdiseaseobj.paginator.num_pages }}">last &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
+</div>
+</div></div>
+
+  </div>
+
+      </div>
+      </div>
+    </div>
+
+
+
+
+
+
+
+<script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+  <!-- Menu Toggle Script -->
+  <script>
+    $("#menu-toggle").click(function(e) {
+      e.preventDefault();
+      $("#wrapper").toggleClass("toggled");
+    });
+  </script>
+
+                    <!--
+<img src="/media/graph/{{Patientobj.pk}}.png" alt="Visualization" style="width:100%">
+
+<img src="/media/graph/sysdia{{Patientobj.pk}}.png" alt="SYS DIA Visualization" style="width:100%">
+-->
+
+                    <hr>
+                    <center><b>Real-Time Visualization</b></center>
+                    <hr>
+
+                    <input type="text" value="{{date}}" id="date1" hidden>
+                    <input type="text" value="{{sys}}" id="sys1" hidden>
+                    <input type="text" value="{{dia}}" id="dia1" hidden>
+                    <input type="text" value="{{hrate}}" id="hrate1" hidden>
+                    <input type="text" value="{{glucose}}" id="glucose1" hidden>
+                    <input type="text" value="{{oxy}}" id="oxy1" hidden>
+                    <input type="text" value="{{btemp}}" id="btemp1" hidden>
+                    <input type="text" value="{{brate}}" id="brate1" hidden>
+
+ <div class="row">
+
+            <!-- Content Column -->
+            <div class="col-lg-6 mb-4">
+<!-- Basic Card Example -->
+              <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">Blood Pressure</h6>
+                </div>
+                <div class="card-body">
+                   <canvas id="chart1"></canvas></div>
+              </div>
+                <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">Oxygen Saturation</h6>
+                </div>
+                <div class="card-body">
+                   <canvas id="chart2"></canvas></div>
+              </div>
+<!-- Basic Card Example -->
+              <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">Blood Glucose</h6>
+                </div>
+                <div class="card-body">
+                   <canvas id="chart3"></canvas></div>
+              </div>
+            </div>
+     <!-- Content Column -->
+            <div class="col-lg-6 mb-4">
+<!-- Basic Card Example -->
+              <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">Breathing Rate</h6>
+                </div>
+                <div class="card-body">
+                   <canvas id="chart4"></canvas></div>
+              </div>
+<!-- Basic Card Example -->
+              <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">Heart Rate</h6>
+                </div>
+                <div class="card-body">
+                   <canvas id="chart5"></canvas></div>
+              </div>
+                <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">Body Temperature</h6>
+                </div>
+                <div class="card-body">
+                   <canvas id="chart6"></canvas></div>
+              </div>
+              </div>
+            </div>
+ </div>
+
+
+                </main>
+                <footer class="py-4 bg-light mt-auto">
+                    <div class="container-fluid">
+                        <div class="d-flex align-items-center justify-content-between small">
+                            <div class="text-muted">Copyright &copy; Your Website 2020</div>
+                            <div>
+                                <a href="#">Privacy Policy</a>
+                                &middot;
+                                <a href="#">Terms &amp; Conditions</a>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+        <script src="{% static 'js/scripts.js' %}"></script>
+
+        <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
+        <script src="{% static 'assets/demo/datatables-demo.js' %}"></script>
+
+
+ <script src="{% static 'ch/vendor/chart.js/Chart.min.js' %}"></script>
+
+  <!-- Page level custom scripts -->
+  <script src="{% static 'ch/js/demo/chart-area-demo.js' %}"></script>
+  <script src="{% static 'ch/js/demo/chart-pie-demo.js' %}"></script>
+
+    <!-- Bootstrap core JavaScript-->
+  <script src="{% static 'ch/vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'ch/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="{% static 'ch/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="{% static 'ch/js/sb-admin-2.min.js' %}"></script>
+
+  <!-- Page level custom scripts -->
+  <script src="{% static 'ch/js/demo/chart-bar-demo.js' %}"></script>
+<script>
+var ctx = document.getElementById('chart1').getContext('2d');
+var sys = document.getElementById('sys1').value.split(" ");
+var dia = document.getElementById('dia1').value.split(" ");
+var date = document.getElementById('date1').value.split(" ");
+
+var myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: date,
+        datasets: [{
+            label: 'SYS',
+            data: sys,
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 3
+        },
+        {
+            label: 'DIA',
+            data: dia,
+            backgroundColor: [
+                'rgba(51, 102, 255, 0.4)',
+                'rgba(51, 102, 255, 0.4)',
+                'rgba(51, 102, 255, 0.4)',
+                'rgba(51, 102, 255, 0.4)',
+                'rgba(51, 102, 255, 0.4)',
+                'rgba(51, 102, 255, 0.4)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 2
+        }]
+    },
+    options: {
+        responsive: true,
+				legend: {
+					position: 'bottom',
+				},
+				hover: {
+					mode: 'index'
+				},
+        scales: {
+
+            xAxes: [{
+
+					display: true,
+					scaleLabel: {
+                        display: true,
+                        labelString: 'Date'
+                            }
+					}],
+			yAxes: [{
+			        ticks: {
+                        max: 200,
+                        min: 50,
+                        stepSize: 1
+                        },
+					display: true,
+					scaleLabel: {
+                            display: true,
+                            labelString: 'Value'
+                            }
+					}]
+        }
+    }
+});
+
+var oxy = document.getElementById('oxy1').value.split(" ");
+var ctx2 = document.getElementById('chart2').getContext('2d');
+var myChart = new Chart(ctx2, {
+    type: 'line',
+    data: {
+        labels: date,
+        datasets: [{
+            label: ' SpO2 (mm Hg)',
+            data: oxy,
+            backgroundColor: [
+                'rgba(179, 217, 255, 0.4)',
+                'rgba(119, 217, 255, 0.4)',
+                'rgba(169, 217, 255, 0.4)',
+                'rgba(179, 217, 255, 0.4)',
+                'rgba(149, 217, 255, 0.4)',
+                'rgba(129, 217, 255, 0.4)'
+            ],
+
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            xAxes: [{
+
+					display: true,
+					scaleLabel: {
+                        display: true,
+                        labelString: 'Date'
+                            }
+					}],
+			yAxes: [{
+			        ticks: {
+                        max: 100,
+                        min: 0,
+                        stepSize: 1
+                        },
+					display: true,
+					scaleLabel: {
+                            display: true,
+                            labelString: 'Value'
+                            }
+					}]
+        }
+    }
+});
+
+
+var glucose = document.getElementById('glucose1').value.split(" ");
+var ctx3 = document.getElementById('chart3').getContext('2d');
+var myChart = new Chart(ctx3, {
+    type: 'line',
+    data: {
+        labels: date,
+        datasets: [{
+            label: ' Glucose Level',
+            data: glucose,
+            backgroundColor: [
+
+                'rgba(0, 204, 0, 0.2)',
+                'rgba(0, 204, 0, 0.2)',
+                'rgba(0, 204, 0, 0.2)',
+                'rgba(0, 204, 0, 0.2)',
+                'rgba(0, 204, 0, 0.2)',
+                'rgba(0, 204, 0, 0.2)'
+            ],
+
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            xAxes: [{
+
+					display: true,
+					scaleLabel: {
+                        display: true,
+                        labelString: 'Date'
+                            }
+					}],
+			yAxes: [{
+			        ticks: {
+                        max: 100,
+                        min: 0,
+                        stepSize: 1
+                        },
+					display: true,
+					scaleLabel: {
+                            display: true,
+                            labelString: 'Value'
+                            }
+					}]
+        }
+    }
+});
+var brate = document.getElementById('brate1').value.split(" ");
+var ctx4 = document.getElementById('chart4').getContext('2d');
+var myChart = new Chart(ctx4, {
+    type: 'line',
+    data: {
+        labels: date,
+        datasets: [{
+            label: ' BRate',
+            data: brate,
+            backgroundColor: [
+                'rgba(0, 77, 0, 0.6)',
+                'rgba(0, 77, 0, 0.4)',
+                'rgba(0, 77, 0, 0.2)',
+                'rgba(0, 77, 0, 0.4)',
+                'rgba(0, 77, 9, 0.6)',
+                'rgba(0, 77, 0, 0.8)'
+            ],
+
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            xAxes: [{
+
+					display: true,
+					scaleLabel: {
+                        display: true,
+                        labelString: 'Date'
+                            }
+					}],
+			yAxes: [{
+			        ticks: {
+                        max: 100,
+                        min: 0,
+                        stepSize: 1
+                        },
+					display: true,
+					scaleLabel: {
+                            display: true,
+                            labelString: 'Value'
+                            }
+					}]
+        }
+    }
+});
+
+var hrate = document.getElementById('hrate1').value.split(" ");
+var ctx5 = document.getElementById('chart5').getContext('2d');
+var myChart = new Chart(ctx5, {
+    type: 'line',
+    data: {
+        labels: date,
+        datasets: [{
+            label: ' HRate',
+            data: hrate,
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            xAxes: [{
+
+					display: true,
+					scaleLabel: {
+                        display: true,
+                        labelString: 'Date'
+                            }
+					}],
+			yAxes: [{
+			        ticks: {
+                        max: 100,
+                        min: 0,
+                        stepSize: 1
+                        },
+					display: true,
+					scaleLabel: {
+                            display: true,
+                            labelString: 'Value'
+                            }
+					}]
+        }
+    }
+});
+
+
+
+var btemp = document.getElementById('btemp1').value.split(" ");
+var ctx6 = document.getElementById('chart6').getContext('2d');
+var myChart = new Chart(ctx6, {
+    type: 'line',
+    xAxisID: 'Date',
+    data: {
+        labels: date,
+        datasets: [{
+            label: 'In fahrenheit',
+            data: btemp,
+            backgroundColor: [
+                'rgba(102, 102, 51, 0.4)',
+                'rgba(102, 102, 51, 0.4)',
+                'rgba(102, 102, 51, 0.4)',
+                'rgba(102, 102, 51, 0.4)',
+                'rgba(102, 102, 51, 0.4)',
+                'rgba(102, 102, 51, 0.4)'
+            ],
+
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            xAxes: [{
+
+					display: true,
+					scaleLabel: {
+                        display: true,
+                        labelString: 'Date'
+                            }
+					}],
+			yAxes: [{
+			        ticks: {
+                        max: 110,
+                        min: 80,
+                        stepSize: 1
+                        },
+					display: true,
+					scaleLabel: {
+                            display: true,
+                            labelString: 'Temperature'
+                            }
+					}]
+        }
+    }
+});
+function record(id, nextFieldID) {
+            var recognition = new webkitSpeechRecognition();
+            recognition.lang = "en-in";
+
+            recognition.onresult = function(event) {
+                // console.log(event);
+                var speech_value = event.results[0][0].transcript;
+				if( speech_value == "skip")
+				 document.getElementById(nextFieldID).focus();
+				else
+				{
+				document.getElementById(id).value = speech_value;
+				document.getElementById(nextFieldID).focus();
+				}
+            }
+            recognition.start();
+
+        }
+function record_01(id, nextFieldID) {
+            var recognition = new webkitSpeechRecognition();
+            recognition.lang = "hi";
+
+            recognition.onresult = function(event) {
+                // console.log(event);
+                var speech_value = event.results[0][0].transcript;
+				if( speech_value == "skip")
+				 document.getElementById(nextFieldID).focus();
+				else
+				{
+				document.getElementById(id).value = speech_value;
+				document.getElementById(nextFieldID).focus();
+				}
+            }
+            recognition.start();
+
+        }
+</script>
+    </body>
+
+</html>
+
+
+
+

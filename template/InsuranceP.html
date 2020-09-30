@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <title>EMR | Dashboard</title>
+<!---->{% load static %}
+  <!-- Bootstrap core CSS -->
+  <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <!-- Custom styles for this template -->
+  <link href="{% static 'css/simple-sidebar.css' %}" rel="stylesheet">
+
+</head>
+<body>
+  <div class="d-flex" id="wrapper">
+    <!-- Sidebar -->
+    <div class="border-right" id="sidebar-wrapper">
+      <div class="sidebar-heading">Hello, {{request.user.first_name|capfirst}}</div>
+      <div class="list-group list-group-flush">
+        <a href="/user/Dashboard/" class="list-group-item list-group-item-action bg-light">Dashboard<span class="sr-only">(current)</span></a>
+        <a href="/user/account" class="list-group-item list-group-item-action bg-light">Account</a>
+        <a href="/user/labreports" class="list-group-item list-group-item-action bg-light">Lab Reports</a>
+        <a href="/user/Medications" class="list-group-item list-group-item-action bg-light">Prescription & Medications</a>
+        <a href="/user/vitalinfo" class="list-group-item list-group-item-action bg-light">Vital Records</a>
+        <a href="/user/billDisgrecords" class="list-group-item list-group-item-action bg-light">Bills & Discharge records</a>
+
+        <a href="/user/DiseaseRecords" class="list-group-item list-group-item-action bg-light">Problems & Disease Records</a>
+        <a href="/user/Insurance" class="list-group-item list-group-item-action bg-light">Insurance</a>
+        <a href="/user/PredictDisease" class="list-group-item list-group-item-action bg-light">Predict Disease</a>
+        <a href="/user/Notifications" class="list-group-item list-group-item-action bg-light">Notifications</a>
+      </div>
+    </div>
+    <!-- /#sidebar-wrapper -->
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+
+      <nav class="navbar navbar-expand-lg  border-bottom navbar-dark bg-primary sticky-top">
+        <button class="btn btn-primary" id="menu-toggle">Menu</button>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+        <a class="nav-link" href="/logout/">Logout</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <div class="container-fluid">
+</br>
+<h3>Insurance Details</h3></br>
+<div class="table-responsive">
+<table class="table table-striped">
+  <thead >
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Insurance Company Name</th>
+      <th scope="col">Coverage From</th>
+      <th scope="col">Coverage Till</th>
+	  <th scope="col">Certificate Link</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for rec in patientInsuranceobj %}
+    <tr>
+      <th scope="row">{{rec.pk}}</th>
+      <td>{{rec.insurancecompany}}</td>
+      <td>{{rec.fromdate|date:"D d M Y"}}</td>
+      <td>{{rec.todate|date:"D d M Y"}}</td>
+	  <td><a href="{{rec.Insurancecertificate.url}}"> {{rec.Insurancecertificate}}</a></td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+  Add
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Insurance Details</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <label for="insure" >Insurance Company Name</label>
+
+      <input type="text" class="form-control form-control-sm" id="insure" name="insure">
+
+    <label for="cfrom" >Coverage From</label>
+
+      <input type="date" class="form-control form-control-sm" id="cfrom" name="cfrom">
+
+    <label for="ctill" >Coverage Till</label>
+
+      <input type="date" class="form-control form-control-sm" id="ctill" name="ctill">
+
+    <label for="fupload" >File Upload</label>
+
+      <input type="file" class="form-control form-control-sm" id="fupload" name="fupload">
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Upload</button></form>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+      </div>
+
+
+
+      </div>
+    </div>
+    <!-- /#page-content-wrapper -->
+
+  </div>
+  <!-- /#wrapper -->
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+  <!-- Menu Toggle Script -->
+  <script>
+    $("#menu-toggle").click(function(e) {
+      e.preventDefault();
+      $("#wrapper").toggleClass("toggled");
+    });
+  </script>
+
+</body>
+
+</html>

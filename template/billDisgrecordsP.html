@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <title>EMR | Dashboard | Bill Record</title>
+<!---->{% load static %}
+  <!-- Bootstrap core CSS -->
+  <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <!-- Custom styles for this template -->
+  <link href="{% static 'css/simple-sidebar.css' %}" rel="stylesheet">
+
+</head>
+<body>
+  <div class="d-flex" id="wrapper">
+    <!-- Sidebar -->
+    <div class="border-right" id="sidebar-wrapper">
+      <div class="sidebar-heading">Hello, {{request.user.first_name|capfirst}}</div>
+      <div class="list-group list-group-flush">
+        <a href="/user/Dashboard/" class="list-group-item list-group-item-action bg-light">Dashboard<span class="sr-only">(current)</span></a>
+        <a href="/user/account" class="list-group-item list-group-item-action bg-light">Account</a>
+        <a href="/user/labreports" class="list-group-item list-group-item-action bg-light">Lab Reports</a>
+        <a href="/user/Medications" class="list-group-item list-group-item-action bg-light">Prescription & Medications</a>
+        <a href="/user/vitalinfo" class="list-group-item list-group-item-action bg-light">Vital Records</a>
+        <a href="/user/billDisgrecords" class="list-group-item list-group-item-action bg-light">Bills & Discharge records</a>
+
+        <a href="/user/DiseaseRecords" class="list-group-item list-group-item-action bg-light">Problems & Disease Records</a>
+        <a href="/user/Insurance" class="list-group-item list-group-item-action bg-light">Insurance</a>
+        <a href="/user/PredictDisease" class="list-group-item list-group-item-action bg-light">Predict Disease</a>
+        <a href="/user/Notifications" class="list-group-item list-group-item-action bg-light">Notifications</a>
+      </div>
+    </div>
+    <!-- /#sidebar-wrapper -->
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+
+      <nav class="navbar navbar-expand-lg  border-bottom navbar-dark bg-primary sticky-top">
+        <button class="btn btn-primary" id="menu-toggle">Menu</button>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+        <a class="nav-link" href="/logout/">Logout</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <div class="container-fluid">
+</br>
+<h3>Billing Details</h3></br>
+<div class="table-responsive">
+<table class="table table-striped">
+  <thead >
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Bill Name</th>
+      <th scope="col">Hospital Name</th>
+      <th scope="col">DOB</th>
+	  <th scope="col">Document Link</th>
+
+    </tr>
+  </thead>
+  <tbody>
+  {% for rec in billingdetailsobj %}
+    <tr>
+      <th scope="row">{{rec.pk}}</th>
+      <td>{{rec.billname}}</td>
+      <td>{{rec.Hospital|truncatechars:11}}</td>
+      <td>{{rec.dateofbilling|date:"D d M Y"}}</td>
+      <td><a href="{{rec.billingpdf.url}}" >{{rec.billingpdf}}</a></td>
+    </tr>
+   {% endfor %}
+  </tbody>
+</table>
+ <div class="pagination float-right">
+                <span class="step-links">
+                    {% if billingdetailsobj.has_previous %}
+                        <a href="?billingdetailrecords_list_page=1">&laquo; first</a>
+                        <a href="?billingdetailrecords_list_page={{ billingdetailsobj.previous_page_number }}">previous</a>
+                    {% endif %}
+                    <span class="current">
+                        List {{ billingdetailsobj.number }} of {{ billingdetailsobj.paginator.num_pages }}.
+                    </span>
+                    {% if labrecordsobj.has_next %}
+                        <a href="?billingdetailrecords_list_page={{ billingdetailsobj.next_page_number }}">next</a>
+                        <a href="?billingdetailrecords_list_page={{ billingdetailsobj.paginator.num_pages }}">last &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
+  <br>
+<h3>Discharge Summary</h3>
+<table class="table table-striped">
+  <thead >
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Document Name</th>
+	  <th scope="col">Hospital Name</th>
+      <th scope="col">DOB</th>
+	  <th scope="col">Document Link</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for rec in Dischargedetailssobj%}
+    <tr>
+        <th scope="row">{{rec.pk}}</th>
+        <td>{{rec.Dischargename}}</td>
+        <td>{{rec.Hospital|truncatechars:11}}</td>
+        <td>{{rec.dateofbilling|date:"D d M Y"}}</td>
+        <td><a href="{{rec.Dischargepdf.url}}"> {{rec.Dischargepdf}}</a></td>
+    </tr>
+    {% endfor %}
+
+  </tbody>
+</table>
+
+</div>
+<div class="pagination float-right">
+                <span class="step-links">
+                    {% if Dischargedetailssobj.has_previous %}
+                        <a href="?Dischargedetailrecords_list_page=1">&laquo; first</a>
+                        <a href="?Dischargedetailrecords_list_page={{ Dischargedetailssobj.previous_page_number }}">previous</a>
+                    {% endif %}
+                    <span class="current">
+                        List {{ Dischargedetailssobj.number }} of {{ Dischargedetailssobj.paginator.num_pages }}.
+                    </span>
+                    {% if Dischargedetailssobj.has_next %}
+                        <a href="?Dischargedetailrecords_list_page={{ Dischargedetailssobj.next_page_number }}">next</a>
+                        <a href="?Dischargedetailrecords_list_page={{ Dischargedetailssobj.paginator.num_pages }}">last &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
+
+
+      </div>
+
+
+
+      </div>
+    </div>
+    <!-- /#page-content-wrapper -->
+
+  </div>
+  <!-- /#wrapper -->
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+  <!-- Menu Toggle Script -->
+  <script>
+    $("#menu-toggle").click(function(e) {
+      e.preventDefault();
+      $("#wrapper").toggleClass("toggled");
+    });
+  </script>
+
+</body>
+
+</html>

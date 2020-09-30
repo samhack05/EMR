@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <title>EMR | Dashboard</title>
+<!---->{% load static %}
+  <!-- Bootstrap core CSS -->
+  <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <!-- Custom styles for this template -->
+  <link href="{% static 'css/simple-sidebar.css' %}" rel="stylesheet">
+
+</head>
+<body>
+  <div class="d-flex" id="wrapper">
+    <!-- Sidebar -->
+    <div class="border-right" id="sidebar-wrapper">
+      <div class="sidebar-heading">Hello, {{request.user.first_name|capfirst}}</div>
+      <div class="list-group list-group-flush">
+        <a href="/user/Dashboard/" class="list-group-item list-group-item-action bg-light">Dashboard<span class="sr-only">(current)</span></a>
+        <a href="/user/account" class="list-group-item list-group-item-action bg-light">Account</a>
+        <a href="/user/labreports" class="list-group-item list-group-item-action bg-light">Lab Reports</a>
+        <a href="/user/Medications" class="list-group-item list-group-item-action bg-light">Prescription & Medications</a>
+        <a href="/user/vitalinfo" class="list-group-item list-group-item-action bg-light">Vital Records</a>
+        <a href="/user/billDisgrecords" class="list-group-item list-group-item-action bg-light">Bills & Discharge records</a>
+
+        <a href="/user/DiseaseRecords" class="list-group-item list-group-item-action bg-light">Problems & Disease Records</a>
+        <a href="/user/Insurance" class="list-group-item list-group-item-action bg-light">Insurance</a>
+        <a href="/user/PredictDisease" class="list-group-item list-group-item-action bg-light">Predict Disease</a>
+        <a href="/user/Notifications" class="list-group-item list-group-item-action bg-light">Notifications</a>
+      </div>
+    </div>
+    <!-- /#sidebar-wrapper -->
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+
+      <nav class="navbar navbar-expand-lg  border-bottom navbar-dark bg-primary sticky-top">
+        <button class="btn btn-primary" id="menu-toggle">Menu</button>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+        <a class="nav-link" href="/logout/">Logout</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <div class="container-fluid">
+</br>
+<h3>Cardiovascular Disease</h3></br>
+     <form method="POST" action=".">
+    {% csrf_token %}
+         AGE: &nbsp;&nbsp;<input type = "text" id="age" name="age"><br><br>
+         GENDER: &nbsp;&nbsp;
+         FEMALE&nbsp;<input type="radio" id="gender" name="gender" value="1">&nbsp;&nbsp;
+         MALE&nbsp;<input type="radio" id="gender" name="gender" value="2">
+        <br><br>
+        HEIGHT: &nbsp;&nbsp;<input type = "text" id="height" name="height"><br><br>
+        WEIGHT: &nbsp;&nbsp;<input type = "text" id="weight" name="weight"><br><br>
+        SYSTOLIC BLOOD PRESSURE : &nbsp;&nbsp;<input type = "text" id="sbp" name="sbp"><br><br>
+        DISYSTOLIC BLOOD PRESSURE : &nbsp;&nbsp;<input type = "text" id="dbp" name="dbp">
+        <br><br>
+        CHOLESTEROL LEVEL : &nbsp;&nbsp; <select id="chol" name="chol">
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <br><br>
+    </select>
+        GLUCOSE LEVEL :  &nbsp;&nbsp;<select id="glu" name="glu">
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+    </select>
+        <br><br>
+        SMOKE : &nbsp;&nbsp;
+        <input type="radio" id="smoke" name="smoke" value="0"> &nbsp;&nbsp;NO &nbsp;&nbsp;<input type="radio" id="smoke" name="smoke" value="1">YES
+        <br><br>
+        ALCOHAL : &nbsp;&nbsp;
+        <input type="radio" id="alco" name="alco" value="0"> &nbsp;&nbsp;NO &nbsp;&nbsp;<input type="radio" id="alco" name="alco" value="1">YES
+        <br><br>
+        ARE YOU PHYSICALLY ACTIVE : &nbsp;&nbsp;
+        <input type="radio" id="active" name="active" value="0"> &nbsp;&nbsp;NO &nbsp;&nbsp;<input type="radio" id="active" name="active" value="1">YES
+        <br><br>
+        <button type="submit" value="Save">CHECK</button>
+
+
+</form>
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <h4 style="color:red;">{{ message }}</h4>
+    {% endfor %}
+</ul>
+{% endif %}
+
+      </div>
+    </div>
+    <!-- /#page-content-wrapper -->
+
+  </div>
+  <!-- /#wrapper -->
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+  <!-- Menu Toggle Script -->
+  <script>
+    $("#menu-toggle").click(function(e) {
+      e.preventDefault();
+      $("#wrapper").toggleClass("toggled");
+    });
+  </script>
+
+</body>
+
+</html>

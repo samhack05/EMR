@@ -1,0 +1,13 @@
+----------Hospital---------------
+Visulization
+	-Patient Visits
+	-Patient unique visits
+
+add Patient Problem:
+	-they can see in Patient Table as well
+add Patient in Circle accr. (Inpatient 1 day or outPatient)
+
+
+-----Doctor-------------
+seperate visulization for all vital info
+ 
